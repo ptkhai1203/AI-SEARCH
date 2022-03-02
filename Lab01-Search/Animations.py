@@ -2,6 +2,7 @@ from Graphs import initialize, generateFigure, getRawData, readMatrix, np
 from Colors import *
 from student_functions import DFS, BFS, UCS, GBFS, Astar
 import pygame
+import matplotlib.pyplot as plt
 from pygame.locals import *
 pygame.init()
 clock=   pygame.time.Clock()
@@ -22,7 +23,7 @@ def drawFig(raw_data, size):
 def update(G, color_map, pos, t):
    
     fig = generateFigure(G, color_map, pos)
-    plt.savfig(t+".svg")
+    plt.savefig("abc"+".svg")
     raw_data, size= getRawData(fig)
     drawFig(raw_data,size)
     pygame.display.update()
@@ -60,14 +61,14 @@ def paintPath(path, G, pos, color_map):
         color_map[node]=path_node_color
         if i< (n_nodes-1):
             G[node][path[i+1]]['color'] = path_color
-    update(G, pos, color_map)
+    update(G, pos, color_map, 0)
 def run(input, algorithm, delay):
     global time_delay
     time_delay=delay
     matrix, start, end=readMatrix(input)
     G, pos, color_map=initialize(matrix)
-    update(G, pos, color_map)
     t = 1
+    update(G, pos, color_map, t)
     if algorithm == 'bfs':
         visited, path = BFS(matrix, start, end)
     elif algorithm == 'dfs':
@@ -83,8 +84,8 @@ def run(input, algorithm, delay):
     
     t=1
 
-    searchAnimation(matrix, visited, G, pos, color_map)
-    paintPath(path, G, pos, color_map, t)
+    searchAnimation(matrix, visited, G, pos, color_map, t)
+    paintPath(path, G, pos, color_map)
     while True:
         quit_event()
     

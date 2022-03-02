@@ -1,30 +1,35 @@
 import numpy as np
 import math
 
-visit = {}
-path = []
-
 def DFS(matrix, start, end):
-    global visit
-    global path
+    path = []
+    visited = {}
+    trace = {}
+    stack = []
     n = int(math.sqrt(matrix.size))
-    visit[start] = 1
-    for i in range(0, n) :
-        print(i)
-        if i in visit:
-            continue
-        if matrix[start, i] != 0 :
-            path.append((start + 1, i + 1))
-            visit[i] = 1
-            DFS(matrix, i, end)
-            print('visit {}'.format(i + 1))
-        if i == end:
-            return 
+    visited[start] = 1
+    stack.append(start)
+    while len(stack) != 0 :
+        e = stack.pop() 
+        visited[e] = 1
+        if e == end :
+            x = e
+            path.clear()
+            while x != start :
+                path.append((trace[x] + 1, x + 1))
+                x = trace[x]
+            path.reverse() 
+        for x in range(n - 1, -1, -1) :
+            if matrix[e, x] != 0 :
+                if x not in visited:
+                    stack.append(x)
+                    trace[x] = e
+    return visited, path
+
 start, end = [int(x) for x in input().split()]
 matrix = np.array([[0, 2, 4, 8], [1, 0 , 5, 8], [1, 0, 0, 0], [1, 1, 1, 0]])
-print(matrix[0, 0])
 start = start - 1
 end = end - 1
-DFS(matrix, start, end)
+visited, path = DFS(matrix, start, end)
 
-print(visit, path)
+print(visited, path)

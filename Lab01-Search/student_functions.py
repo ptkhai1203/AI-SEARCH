@@ -1,5 +1,5 @@
 import numpy as np
-
+import math
 
 def DFS(matrix, start, end):
     """
@@ -22,10 +22,31 @@ def DFS(matrix, start, end):
         Founded path
     """
     # TODO: 
-   
-    path=[]
-    visited={}
-
+    
+    path = []
+    visited = {}
+    trace = {}
+    stack = []
+    n = int(math.sqrt(matrix.size))
+    visited[start] = 1
+    stack.append(start)
+    while len(stack) != 0 :
+        e = stack.pop() 
+        visited[e] = 1
+        if e == end :
+            x = e
+            path.clear()
+            while x != start :
+                path.append(x)
+                x = trace[x]
+            path.append(start)
+            path.reverse() 
+        for x in range(n - 1, -1, -1) :
+            if matrix[e, x] != 0 :
+                if x not in visited:
+                    stack.append(x)
+                    trace[x] = e
+    print(path)
     return visited, path
 
 def BFS(matrix, start, end):
