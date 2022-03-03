@@ -135,8 +135,9 @@ def UCS(matrix, start, end):
     visited[start] = start
     d[start] = 0
     while not queue.isEmpty():
-        print(queue)
         du, u, v = queue.pop()
+        if mark[u] == True:
+            continue
         visited[u] = v
     
         if u == end:
@@ -148,9 +149,6 @@ def UCS(matrix, start, end):
             path.reverse()
             break
     
-        if mark[u] == True:
-            continue
-
         mark[u] = True
 
         for i in range(0, n):
@@ -158,8 +156,6 @@ def UCS(matrix, start, end):
                     if d[u] + matrix[u, i] < d[i]:
                         d[i] = d[u] + matrix[u, i]
                         queue.push((d[i], i, u))
-                        
-    print(visited, path)
     return visited, path
 
 def GBFS(matrix, start, end):

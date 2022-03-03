@@ -7,7 +7,7 @@ from pygame.locals import *
 pygame.init()
 clock=   pygame.time.Clock()
 font =   pygame.font.Font(pygame.font.get_default_font(), 25)
-fps = 5  # frames per sec
+fps = 30  # frames per sec
 window = pygame.display.set_mode((1024, 768), DOUBLEBUF)
 screen = pygame.display.get_surface()
 
