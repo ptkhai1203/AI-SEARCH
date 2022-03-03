@@ -1,5 +1,6 @@
 import numpy as np
 import math
+from priority_queue import *
 
 def DFS(matrix, start, end):
     """
@@ -22,33 +23,33 @@ def DFS(matrix, start, end):
         Founded path
     """
     # TODO: 
-    
+
     path = []
     visited = {}
     trace = {}
     stack = []
     n = int(math.sqrt(matrix.size))
-    visited[start] = 1
     stack.append(start)
+    last = start
     while len(stack) != 0 :
         e = stack.pop() 
-        visited[e] = 1
+        visited[e] = last
         if e == end :
             x = e
             path.clear()
             while x != start :
                 path.append(x)
-                x = trace[x]
+                x = visited[x]
             path.append(start)
-            path.reverse() 
+            path.reverse()
+            break 
         for x in range(n - 1, -1, -1) :
             if matrix[e, x] != 0 :
                 if x not in visited:
                     stack.append(x)
-                    trace[x] = e
-    print(path)
+        last = e
     return visited, path
-
+    
 def BFS(matrix, start, end):
     """
     DFS algorithm
@@ -74,9 +75,32 @@ def BFS(matrix, start, end):
     
     path=[]
     visited={}
-   
-    return visited, path
+    trace = {}
+    queue = []
+    queue2 = []
+    n = int(math.sqrt(matrix.size))
+    queue.append(start)
+    queue2.append(start)
+    while len(queue) != 0:
+        e = queue.pop(0)
+        last = queue2.pop(0)
+        visited[e] = last
+        if e == end :
+            x = end
+            while x != start :
+                path.append(x)
+                x = visited[x]
 
+            path.append(start)
+            path.reverse()
+            return visited, path
+        for i in range(0, n) :
+            if matrix[e, i] != 0:
+                if i not in visited: 
+                    queue.append(i)
+                    queue2.append(e)
+    return visited, path
+    
 
 def UCS(matrix, start, end):
     """
@@ -98,11 +122,45 @@ def UCS(matrix, start, end):
     path: list
         Founded path
     """
-    # TODO:  
+    # TODO: 
+
     path=[]
     visited={}
-    return visited, path
+    queue = priorityQueue()
+    trace = {}
+    n = int(math.sqrt(matrix.size))
+    d = [sys.maxsize for i in range(n + 1)]
+    mark = [False for i in range(n + 1)]
+    queue.push((0, start, start)) 
+    visited[start] = start
+    d[start] = 0
+    while not queue.isEmpty():
+        print(queue)
+        du, u, v = queue.pop()
+        visited[u] = v
+    
+        if u == end:
+            x = end
+            while x != start:
+                path.append(x)
+                x = visited[x]
+            path.append(start)
+            path.reverse()
+            break
+    
+        if mark[u] == True:
+            continue
 
+        mark[u] = True
+
+        for i in range(0, n):
+            if matrix[u, i] != 0:
+                    if d[u] + matrix[u, i] < d[i]:
+                        d[i] = d[u] + matrix[u, i]
+                        queue.push((d[i], i, u))
+                        
+    print(visited, path)
+    return visited, path
 
 def GBFS(matrix, start, end):
     """
