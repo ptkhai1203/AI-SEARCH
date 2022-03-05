@@ -158,6 +158,26 @@ def UCS(matrix, start, end):
                         queue.push((d[i], i, u))
     return visited, path
 
+def CalcH(matrix, end):
+    n = int(math.sqrt((matrix.size)))
+    h = [sys.maxsize for i in range(n)]
+    for i in range(0, n):
+        v, p = UCS(matrix, i, end)
+        if len(p) == 0:
+            continue
+        if len(p) == 1:
+            h[i] = 0
+            continue
+        cost = 0
+        last = p.pop(0)
+        while len(p) != 0:
+            nxt = p.pop(0)
+            cost += matrix[last][nxt]
+            last = nxt
+        h[i] = cost
+    
+    return h
+
 def GBFS(matrix, start, end):
     """
     Greedy Best First Search algorithm
@@ -181,6 +201,36 @@ def GBFS(matrix, start, end):
     # TODO: 
     path=[]
     visited={}
+    queue = priorityQueue()
+    trace = {}
+    n = int(math.sqrt(matrix.size))
+    mark = [False for i in range(n + 1)]
+    queue.push((0, start, start)) 
+    visited[start] = start
+    h = CalcH(matrix, end)
+    while not queue.isEmpty():
+        du, u, v = queue.pop()
+        if mark[u] == True:
+            continue
+        visited[u] = v
+    
+        if u == end:
+            x = end
+            while x != start:
+                path.append(x)
+                x = visited[x]
+            path.append(start)
+            path.reverse()
+            break
+    
+        mark[u] = True
+
+        for i in range(0, n):
+            if matrix[u, i] != 0:
+                    if mark[i] == False:
+                        queue.push((h[i], i, u))
+
+
     return visited, path
 
 def Astar(matrix, start, end, pos):
