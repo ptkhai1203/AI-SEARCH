@@ -82,6 +82,8 @@ def BFS(matrix, start, end):
     queue.append(start)
     queue2.append(start)
     while len(queue) != 0:
+        print(queue)
+        print(queue2)
         e = queue.pop(0)
         last = queue2.pop(0)
         visited[e] = last
@@ -96,9 +98,10 @@ def BFS(matrix, start, end):
             return visited, path
         for i in range(0, n) :
             if matrix[e, i] != 0:
-                if i not in visited: 
+                if i not in visited and i not in queue: 
                     queue.append(i)
                     queue2.append(e)
+    print(visited)
     return visited, path
     
 
@@ -127,7 +130,6 @@ def UCS(matrix, start, end):
     path=[]
     visited={}
     queue = priorityQueue()
-    trace = {}
     n = int(math.sqrt(matrix.size))
     d = [sys.maxsize for i in range(n + 1)]
     mark = [False for i in range(n + 1)]
@@ -254,8 +256,43 @@ def Astar(matrix, start, end, pos):
     path: list
         Founded path
     """
-    # TODO: 
+    # TODO:
     path=[]
     visited={}
+    n = int(math.sqrt(matrix.size))
+    mark = [False for i in range(n)]
+    d = [sys.maxsize for i in range(n)]
+    queue = priorityQueue()
+    queue.push((0, start, start))
+    d[start] = 0
+    h = [sys.maxsize for i in range(n)]    
+    for i in range(0, n):
+        h[i] = math.sqrt((pos[i][0] - pos[end][0])**2 + (pos[i][1] - pos[end][1])**2)
+    print(h)
+    while not queue.isEmpty():
+        print(queue)
+        du, u, v = queue.pop()
+        du -= h[u]
+        if mark[u] == True:
+            continue
+        visited[u] = v
+    
+        if u == end:
+            x = end
+            while x != start:
+                path.append(x)
+                x = visited[x]
+            path.append(start)
+            path.reverse()
+            break
+    
+        mark[u] = True
+
+        for i in range(0, n):
+            if matrix[u, i] != 0:
+                    if du + matrix[u, i] + h[i] < d[i]:
+                        d[i] = du + matrix[u, i] + h[i]
+                        queue.push((d[i], i, u))
+
     return visited, path
 
