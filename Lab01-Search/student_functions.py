@@ -1,6 +1,33 @@
 import numpy as np
+import sys
 import math
-from priority_queue import *
+#from priority_queue import *
+
+class priorityQueue(object):#define priorityQueue for UCS, Astar
+    def __init__(self):
+        self.queue = []
+
+    def __str__(self):
+        return ' '.join([str(i) for i in self.queue])
+
+    def isEmpty(self):
+        return len(self.queue) == 0
+
+    def push(self, data):
+        self.queue.append(data)
+
+    def pop(self):
+        try:
+            min = 0
+            for i in range(len(self.queue)):
+                if self.queue[i][0] < self.queue[min][0] :
+                    min = i
+            res = self.queue[min]
+            del self.queue[min]
+            return res
+        except error:
+            print()
+            exit()
 
 def DFS(matrix, start, end):
     """
@@ -155,9 +182,9 @@ def UCS(matrix, start, end):
 
         for i in range(0, n):
             if matrix[u, i] != 0:
-                    if d[u] + matrix[u, i] < d[i]:
-                        d[i] = d[u] + matrix[u, i]
-                        queue.push((d[i], i, u))
+                if d[u] + matrix[u, i] < d[i]:
+                    d[i] = d[u] + matrix[u, i]
+                    queue.push((d[i], i, u))
     return visited, path
 
 def CalcH(matrix, end):
@@ -210,6 +237,7 @@ def GBFS(matrix, start, end):
     queue.push((0, start, start)) 
     visited[start] = start
     h = CalcH(matrix, end)
+    print(h)
     while not queue.isEmpty():
         du, u, v = queue.pop()
         if mark[u] == True:

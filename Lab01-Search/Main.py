@@ -11,7 +11,7 @@ if __name__ == '__main__':
     input = str(sys.argv[1])
     al = str(sys.argv[2])
     if (len(sys.argv)==4):
-        time_delay = int(sys.argv[4])
+        time_delay = int(sys.argv[3])
     else: time_delay=500
     run(input, al, time_delay)
     

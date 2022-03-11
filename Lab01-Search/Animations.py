@@ -23,7 +23,7 @@ def drawFig(raw_data, size):
 def update(G, color_map, pos, t):
    
     fig = generateFigure(G, color_map, pos)
-    plt.savefig("abc"+".svg")
+    #plt.savefig("abc"+".svg")
     raw_data, size= getRawData(fig)
     drawFig(raw_data,size)
     pygame.display.update()
