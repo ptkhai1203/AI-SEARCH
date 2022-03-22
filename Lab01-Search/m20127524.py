@@ -109,8 +109,6 @@ def BFS(matrix, start, end):
     queue.append(start)
     queue2.append(start)
     while len(queue) != 0:
-        print(queue)
-        print(queue2)
         e = queue.pop(0)
         last = queue2.pop(0)
         visited[e] = last
@@ -128,7 +126,6 @@ def BFS(matrix, start, end):
                 if i not in visited and i not in queue: 
                     queue.append(i)
                     queue2.append(e)
-    print(visited)
     return visited, path
     
 
@@ -185,6 +182,7 @@ def UCS(matrix, start, end):
                 if d[u] + matrix[u, i] < d[i]:
                     d[i] = d[u] + matrix[u, i]
                     queue.push((d[i], i, u))
+ 
     return visited, path
 
 def CalcH(matrix, end):
@@ -192,6 +190,8 @@ def CalcH(matrix, end):
     h = [sys.maxsize for i in range(n)]
     for i in range(0, n):
         v, p = UCS(matrix, i, end)
+        if end not in p:
+            continue
         if len(p) == 0:
             continue
         if len(p) == 1:
@@ -236,8 +236,6 @@ def GBFS(matrix, start, end):
     mark = [False for i in range(n + 1)]
     queue.push((0, start, start)) 
     visited[start] = start
-    h = CalcH(matrix, end)
-    print(h)
     while not queue.isEmpty():
         du, u, v = queue.pop()
         if mark[u] == True:
@@ -258,7 +256,7 @@ def GBFS(matrix, start, end):
         for i in range(0, n):
             if matrix[u, i] != 0:
                     if mark[i] == False:
-                        queue.push((h[i], i, u))
+                        queue.push((matrix[u][i], i, u))
 
 
     return visited, path
@@ -295,10 +293,9 @@ def Astar(matrix, start, end, pos):
     d[start] = 0
     h = [sys.maxsize for i in range(n)]    
     for i in range(0, n):
-        h[i] = math.sqrt((pos[i][0] - pos[end][0])**2 + (pos[i][1] - pos[end][1])**2)
-    print(h)
+        h[i] = math.sqrt((pos[i][0] - pos[end][0])**2 + (pos[i][1] - pos[end][1])**2) 
+    
     while not queue.isEmpty():
-        print(queue)
         du, u, v = queue.pop()
         du -= h[u]
         if mark[u] == True:

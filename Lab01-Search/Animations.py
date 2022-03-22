@@ -1,6 +1,6 @@
 from Graphs import initialize, generateFigure, getRawData, readMatrix, np
 from Colors import *
-from student_functions import DFS, BFS, UCS, GBFS, Astar
+from m20127524 import DFS, BFS, UCS, GBFS, Astar
 import pygame
 import matplotlib.pyplot as plt
 from pygame.locals import *
