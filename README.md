@@ -9,7 +9,7 @@
 > See details implement in m20127524.py
 
 ## Tutorial
-* Run command: **python Main.py <input_file_path> <algorithm> <time_delay>(optional)**. search_algorithm must be one of [bfs, dfs, ucs, gbfs, astar]
+* Run command: **python Main.py [input_file_path] [algorithm] [time_delay](optional)**. search_algorithm must be one of [bfs, dfs, ucs, gbfs, astar]
 
 ## About me
 
